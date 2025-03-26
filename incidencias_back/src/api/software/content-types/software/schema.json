@@ -1,0 +1,43 @@
+{
+  "kind": "collectionType",
+  "collectionName": "softwares",
+  "info": {
+    "singularName": "software",
+    "pluralName": "softwares",
+    "displayName": "software",
+    "description": ""
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nombre_software": {
+      "type": "string"
+    },
+    "version": {
+      "type": "string"
+    },
+    "tipo_software": {
+      "type": "enumeration",
+      "enum": [
+        "SO",
+        "Antivirus",
+        "Office",
+        "Otro"
+      ]
+    },
+    "dispositivo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::dispositivo.dispositivo",
+      "inversedBy": "software"
+    },
+    "licencias": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::licencia.licencia",
+      "mappedBy": "software"
+    }
+  }
+}

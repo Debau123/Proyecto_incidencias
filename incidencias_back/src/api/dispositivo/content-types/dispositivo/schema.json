@@ -1,0 +1,74 @@
+{
+  "kind": "collectionType",
+  "collectionName": "dispositivos",
+  "info": {
+    "singularName": "dispositivo",
+    "pluralName": "dispositivos",
+    "displayName": "Dispositivos"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "tipo_dispositivo": {
+      "type": "enumeration",
+      "enum": [
+        "Ordenador",
+        "Pantalla",
+        "Movil",
+        "Tablet",
+        "Sai"
+      ]
+    },
+    "numero_serie": {
+      "type": "string",
+      "required": true,
+      "unique": true
+    },
+    "marca": {
+      "type": "string"
+    },
+    "modelo": {
+      "type": "string"
+    },
+    "fecha_compra": {
+      "type": "date"
+    },
+    "fecha_garantia_fin": {
+      "type": "date"
+    },
+    "estado": {
+      "type": "enumeration",
+      "enum": [
+        "Operativo",
+        "Mantenimiento",
+        "Averiado"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "dispositivos"
+    },
+    "software": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::software.software",
+      "mappedBy": "dispositivo"
+    },
+    "componentes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::componente.componente",
+      "mappedBy": "dispositivo"
+    },
+    "incidencias": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::incidencia.incidencia",
+      "mappedBy": "dispositivo"
+    }
+  }
+}

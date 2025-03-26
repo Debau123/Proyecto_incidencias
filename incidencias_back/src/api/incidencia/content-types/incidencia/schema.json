@@ -1,0 +1,46 @@
+{
+  "kind": "collectionType",
+  "collectionName": "incidencias",
+  "info": {
+    "singularName": "incidencia",
+    "pluralName": "incidencias",
+    "displayName": "Incidencias"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "titulo": {
+      "type": "string",
+      "required": true
+    },
+    "descripcion": {
+      "type": "string",
+      "required": true
+    },
+    "fecha_creacion": {
+      "type": "datetime"
+    },
+    "estado": {
+      "type": "enumeration",
+      "enum": [
+        "Abierta,",
+        "En Progreso",
+        "Resuelta"
+      ]
+    },
+    "users_permissions_user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "incidencias"
+    },
+    "dispositivo": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::dispositivo.dispositivo",
+      "inversedBy": "incidencias"
+    }
+  }
+}

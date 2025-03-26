@@ -369,6 +369,206 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
   };
 }
 
+export interface ApiComponenteComponente extends Struct.CollectionTypeSchema {
+  collectionName: 'componentes';
+  info: {
+    description: '';
+    displayName: 'Componentes';
+    pluralName: 'componentes';
+    singularName: 'componente';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    descripcion: Schema.Attribute.String;
+    dispositivo: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::dispositivo.dispositivo'
+    >;
+    especificaciones: Schema.Attribute.String;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::componente.componente'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    tipo_componente: Schema.Attribute.Enumeration<
+      ['Procesador', 'RAM', 'Disco Duro', 'Tarjeta Grafica', 'Periferico']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiDispositivoDispositivo extends Struct.CollectionTypeSchema {
+  collectionName: 'dispositivos';
+  info: {
+    displayName: 'Dispositivos';
+    pluralName: 'dispositivos';
+    singularName: 'dispositivo';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    componentes: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::componente.componente'
+    >;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    estado: Schema.Attribute.Enumeration<
+      ['Operativo', 'Mantenimiento', 'Averiado']
+    >;
+    fecha_compra: Schema.Attribute.Date;
+    fecha_garantia_fin: Schema.Attribute.Date;
+    incidencias: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::incidencia.incidencia'
+    >;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dispositivo.dispositivo'
+    > &
+      Schema.Attribute.Private;
+    marca: Schema.Attribute.String;
+    modelo: Schema.Attribute.String;
+    numero_serie: Schema.Attribute.String &
+      Schema.Attribute.Required &
+      Schema.Attribute.Unique;
+    publishedAt: Schema.Attribute.DateTime;
+    software: Schema.Attribute.Relation<'oneToMany', 'api::software.software'>;
+    tipo_dispositivo: Schema.Attribute.Enumeration<
+      ['Ordenador', 'Pantalla', 'Movil', 'Tablet', 'Sai']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiIncidenciaIncidencia extends Struct.CollectionTypeSchema {
+  collectionName: 'incidencias';
+  info: {
+    displayName: 'Incidencias';
+    pluralName: 'incidencias';
+    singularName: 'incidencia';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    descripcion: Schema.Attribute.String & Schema.Attribute.Required;
+    dispositivo: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::dispositivo.dispositivo'
+    >;
+    estado: Schema.Attribute.Enumeration<
+      ['Abierta,', 'En Progreso', 'Resuelta']
+    >;
+    fecha_creacion: Schema.Attribute.DateTime;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::incidencia.incidencia'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    titulo: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    users_permissions_user: Schema.Attribute.Relation<
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+  };
+}
+
+export interface ApiLicenciaLicencia extends Struct.CollectionTypeSchema {
+  collectionName: 'licencias';
+  info: {
+    displayName: 'Licencia';
+    pluralName: 'licencias';
+    singularName: 'licencia';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    clave_licencia: Schema.Attribute.String & Schema.Attribute.Unique;
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    fecha_expiracion: Schema.Attribute.Date;
+    fecha_inicio: Schema.Attribute.Date;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::licencia.licencia'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    software: Schema.Attribute.Relation<'manyToOne', 'api::software.software'>;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
+export interface ApiSoftwareSoftware extends Struct.CollectionTypeSchema {
+  collectionName: 'softwares';
+  info: {
+    description: '';
+    displayName: 'software';
+    pluralName: 'softwares';
+    singularName: 'software';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    dispositivo: Schema.Attribute.Relation<
+      'manyToOne',
+      'api::dispositivo.dispositivo'
+    >;
+    licencias: Schema.Attribute.Relation<'oneToMany', 'api::licencia.licencia'>;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::software.software'
+    > &
+      Schema.Attribute.Private;
+    nombre_software: Schema.Attribute.String;
+    publishedAt: Schema.Attribute.DateTime;
+    tipo_software: Schema.Attribute.Enumeration<
+      ['SO', 'Antivirus', 'Office', 'Otro']
+    >;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    version: Schema.Attribute.String;
+  };
+}
+
 export interface PluginContentReleasesRelease
   extends Struct.CollectionTypeSchema {
   collectionName: 'strapi_releases';
@@ -824,7 +1024,6 @@ export interface PluginUsersPermissionsUser
   };
   options: {
     draftAndPublish: false;
-    timestamps: true;
   };
   attributes: {
     blocked: Schema.Attribute.Boolean & Schema.Attribute.DefaultTo<false>;
@@ -833,11 +1032,19 @@ export interface PluginUsersPermissionsUser
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    dispositivos: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::dispositivo.dispositivo'
+    >;
     email: Schema.Attribute.Email &
       Schema.Attribute.Required &
       Schema.Attribute.SetMinMaxLength<{
         minLength: 6;
       }>;
+    incidencias: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::incidencia.incidencia'
+    >;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
       'oneToMany',
@@ -852,6 +1059,7 @@ export interface PluginUsersPermissionsUser
     provider: Schema.Attribute.String;
     publishedAt: Schema.Attribute.DateTime;
     resetPasswordToken: Schema.Attribute.String & Schema.Attribute.Private;
+    rol: Schema.Attribute.Enumeration<['Administrador', 'Tecnico', 'Usuario']>;
     role: Schema.Attribute.Relation<
       'manyToOne',
       'plugin::users-permissions.role'
@@ -878,6 +1086,11 @@ declare module '@strapi/strapi' {
       'admin::transfer-token': AdminTransferToken;
       'admin::transfer-token-permission': AdminTransferTokenPermission;
       'admin::user': AdminUser;
+      'api::componente.componente': ApiComponenteComponente;
+      'api::dispositivo.dispositivo': ApiDispositivoDispositivo;
+      'api::incidencia.incidencia': ApiIncidenciaIncidencia;
+      'api::licencia.licencia': ApiLicenciaLicencia;
+      'api::software.software': ApiSoftwareSoftware;
       'plugin::content-releases.release': PluginContentReleasesRelease;
       'plugin::content-releases.release-action': PluginContentReleasesReleaseAction;
       'plugin::i18n.locale': PluginI18NLocale;
