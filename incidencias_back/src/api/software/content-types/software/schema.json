@@ -4,7 +4,7 @@
   "info": {
     "singularName": "software",
     "pluralName": "softwares",
-    "displayName": "software",
+    "displayName": "Software",
     "description": ""
   },
   "options": {
@@ -18,26 +18,20 @@
     "version": {
       "type": "string"
     },
-    "tipo_software": {
-      "type": "enumeration",
-      "enum": [
-        "SO",
-        "Antivirus",
-        "Office",
-        "Otro"
-      ]
+    "usuario_contrasena": {
+      "type": "string"
+    },
+    "licencia": {
+      "type": "relation",
+      "relation": "oneToOne",
+      "target": "api::licencia.licencia",
+      "inversedBy": "software"
     },
     "dispositivo": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "api::dispositivo.dispositivo",
       "inversedBy": "software"
-    },
-    "licencias": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::licencia.licencia",
-      "mappedBy": "software"
     }
   }
 }

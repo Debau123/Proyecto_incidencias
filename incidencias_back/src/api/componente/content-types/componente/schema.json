@@ -4,8 +4,7 @@
   "info": {
     "singularName": "componente",
     "pluralName": "componentes",
-    "displayName": "Componentes",
-    "description": ""
+    "displayName": "Componentes"
   },
   "options": {
     "draftAndPublish": true
@@ -15,11 +14,9 @@
     "tipo_componente": {
       "type": "enumeration",
       "enum": [
-        "Procesador",
-        "RAM",
-        "Disco Duro",
-        "Tarjeta Grafica",
-        "Periferico"
+        "Disco_duro",
+        "Memoria_ram",
+        "Procesador"
       ]
     },
     "descripcion": {

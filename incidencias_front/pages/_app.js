@@ -1,5 +1,18 @@
-import "@/styles/globals.css";
+import '../styles/globals.css';
+import Navbar from '../components/Navbar';
+import { useRouter } from 'next/router';
 
-export default function App({ Component, pageProps }) {
-  return <Component {...pageProps} />;
+function MyApp({ Component, pageProps }) {
+  const router = useRouter();
+
+  const showNavbar = router.pathname !== '/login';
+
+  return (
+    <>
+      {showNavbar && <Navbar />}
+      <Component {...pageProps} />
+    </>
+  );
 }
+
+export default MyApp;

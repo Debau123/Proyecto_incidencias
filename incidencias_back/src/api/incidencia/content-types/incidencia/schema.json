@@ -4,7 +4,8 @@
   "info": {
     "singularName": "incidencia",
     "pluralName": "incidencias",
-    "displayName": "Incidencias"
+    "displayName": "Incidencias",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -12,12 +13,10 @@
   "pluginOptions": {},
   "attributes": {
     "titulo": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "descripcion": {
-      "type": "string",
-      "required": true
+      "type": "string"
     },
     "fecha_creacion": {
       "type": "datetime"
@@ -25,16 +24,33 @@
     "estado": {
       "type": "enumeration",
       "enum": [
-        "Abierta,",
-        "En Progreso",
-        "Resuelta"
+        "abierta",
+        "en progreso",
+        "resuelta"
       ]
+    },
+    "imagen": {
+      "type": "media",
+      "multiple": true,
+      "required": false,
+      "allowedTypes": [
+        "images",
+        "files",
+        "videos",
+        "audios"
+      ]
+    },
+    "user": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "plugin::users-permissions.user",
+      "inversedBy": "incidencias"
     },
     "users_permissions_user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "incidencias"
+      "inversedBy": "incidencia"
     },
     "dispositivo": {
       "type": "relation",

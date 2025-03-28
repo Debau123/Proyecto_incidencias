@@ -4,7 +4,8 @@
   "info": {
     "singularName": "dispositivo",
     "pluralName": "dispositivos",
-    "displayName": "Dispositivos"
+    "displayName": "Dispositivos",
+    "description": ""
   },
   "options": {
     "draftAndPublish": true
@@ -14,19 +15,17 @@
     "tipo_dispositivo": {
       "type": "enumeration",
       "enum": [
+        "Portatil",
+        "Movil",
         "Ordenador",
         "Pantalla",
-        "Movil",
-        "Tablet",
         "Sai"
       ]
     },
-    "numero_serie": {
-      "type": "string",
-      "required": true,
-      "unique": true
-    },
     "marca": {
+      "type": "string"
+    },
+    "numero_serie": {
       "type": "string"
     },
     "modelo": {
@@ -41,12 +40,13 @@
     "estado": {
       "type": "enumeration",
       "enum": [
-        "Operativo",
-        "Mantenimiento",
-        "Averiado"
+        "operativo",
+        "averiado",
+        "mantenimiento",
+        "fuera de servicio"
       ]
     },
-    "users_permissions_user": {
+    "user": {
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
@@ -58,16 +58,16 @@
       "target": "api::software.software",
       "mappedBy": "dispositivo"
     },
-    "componentes": {
-      "type": "relation",
-      "relation": "oneToMany",
-      "target": "api::componente.componente",
-      "mappedBy": "dispositivo"
-    },
     "incidencias": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::incidencia.incidencia",
+      "mappedBy": "dispositivo"
+    },
+    "componentes": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::componente.componente",
       "mappedBy": "dispositivo"
     }
   }

@@ -65,21 +65,27 @@
       "inversedBy": "users",
       "configurable": false
     },
+    "rol": {
+      "type": "enumeration",
+      "enum": [
+        "usuario",
+        "tecnico",
+        "administrador"
+      ]
+    },
+    "incidencias": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::incidencia.incidencia",
+      "mappedBy": "user"
+    },
     "dispositivos": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::dispositivo.dispositivo",
-      "mappedBy": "users_permissions_user"
+      "mappedBy": "user"
     },
-    "rol": {
-      "type": "enumeration",
-      "enum": [
-        "Administrador",
-        "Tecnico",
-        "Usuario"
-      ]
-    },
-    "incidencias": {
+    "incidencia": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::incidencia.incidencia",

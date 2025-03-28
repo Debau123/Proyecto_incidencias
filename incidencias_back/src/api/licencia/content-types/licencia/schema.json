@@ -12,8 +12,7 @@
   "pluginOptions": {},
   "attributes": {
     "clave_licencia": {
-      "type": "string",
-      "unique": true
+      "type": "string"
     },
     "fecha_inicio": {
       "type": "date"
@@ -23,9 +22,9 @@
     },
     "software": {
       "type": "relation",
-      "relation": "manyToOne",
+      "relation": "oneToOne",
       "target": "api::software.software",
-      "inversedBy": "licencias"
+      "mappedBy": "licencia"
     }
   }
 }
