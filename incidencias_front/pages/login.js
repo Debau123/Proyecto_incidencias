@@ -35,13 +35,13 @@ export default function LoginPage() {
       localStorage.setItem('user', JSON.stringify(user));
 
       switch (user.rol) {
-        case 'Administrador':
+        case 'administrador':
           router.push('/admin');
           break;
-        case 'Tecnico':
+        case 'tecnico':
           router.push('/tecnico');
           break;
-        case 'Usuario':
+        case 'usuario':
           router.push('/usuario');
           break;
         default:

@@ -7,32 +7,23 @@ export default function UsuarioPage() {
 
   useEffect(() => {
     const token = localStorage.getItem('token');
-    const user = JSON.parse(localStorage.getItem('user'));
 
-    if (!token || !user) {
+    if (!token) {
       router.push('/login');
       return;
     }
 
     const fetchDispositivos = async () => {
       try {
-        const res = await fetch(
-          `http://localhost:1339/api/users?filters[username][$eq]=${user.username}&populate[dispositivos][filters][publishedAt][$notNull]=true`,
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
+        const res = await fetch('http://localhost:1339/api/users/me?populate=dispositivos', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
 
-        const users = await res.json();
-
-        // Aquí accedemos directamente al primer usuario y sus dispositivos
-        if (users.length > 0) {
-          setDispositivos(users[0].dispositivos || []);
-        } else {
-          setDispositivos([]);
-        }
+        const data = await res.json();
+        console.log('Usuario autenticado:', data);
+        setDispositivos(data.dispositivos || []);
       } catch (err) {
         console.error('Error al cargar dispositivos', err);
         setDispositivos([]);
@@ -44,11 +35,12 @@ export default function UsuarioPage() {
 
   const getEstadoColor = (estado) => {
     switch (estado) {
-      case 'Operativo':
+      case 'operativo':
         return '#16a34a';
-      case 'Mantenimiento':
+      case 'mantenimiento':
         return '#eab308';
-      case 'Averiado':
+      case 'averiado':
+      case 'fuera_servicio':
         return '#dc2626';
       default:
         return '#6b7280';
@@ -91,9 +83,10 @@ export default function UsuarioPage() {
                       padding: '4px 8px',
                       borderRadius: '6px',
                       fontSize: '0.9rem',
+                      textTransform: 'capitalize',
                     }}
                   >
-                    {d.estado}
+                    {d.estado.replace('_', ' ')}
                   </span>
                 </summary>
                 <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
