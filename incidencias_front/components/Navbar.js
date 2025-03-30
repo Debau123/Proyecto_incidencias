@@ -50,6 +50,38 @@ const Navbar = () => {
           Inicio
         </button>
 
+        {user.rol === 'tecnico' && (
+          <>
+            <button
+              onClick={() => router.push('/tecnico/dispositivos')}
+              style={{
+                background: '#10b981',
+                color: 'white',
+                border: 'none',
+                padding: '0.5rem 1rem',
+                borderRadius: '6px',
+                cursor: 'pointer'
+              }}
+            >
+              Dispositivos
+            </button>
+
+            <button
+              onClick={() => router.push('/tecnico/incidencias')}
+              style={{
+                background: '#f59e0b',
+                color: 'white',
+                border: 'none',
+                padding: '0.5rem 1rem',
+                borderRadius: '6px',
+                cursor: 'pointer'
+              }}
+            >
+              Incidencias
+            </button>
+          </>
+        )}
+
         <button
           onClick={handleLogout}
           style={{

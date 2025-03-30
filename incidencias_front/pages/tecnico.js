@@ -66,6 +66,7 @@ export default function Tecnico() {
           const id = inc.id;
           const attr = inc.attributes;
           const disp = attr.dispositivo?.data?.attributes;
+          const dispId = attr.dispositivo?.data?.id;
           const usu = attr.user?.data?.attributes;
           return (
             <div key={id} className="mb-2 border border-gray-600 rounded-lg overflow-hidden">
@@ -74,17 +75,22 @@ export default function Tecnico() {
                 onClick={() => setAbiertos(prev => ({ ...prev, [id]: !prev[id] }))}
               >
                 <div>
-                  <p className="font-semibold">{disp?.tipo_dispositivo} - {disp?.modelo}</p>
+                  <p className="font-semibold">{attr.titulo}</p>
                   <p className="text-sm text-gray-400">Usuario: {usu?.username}</p>
                 </div>
                 <span className={`text-xs text-white px-2 py-1 rounded ${getEstadoColor(attr.estado)}`}>{attr.estado}</span>
               </div>
               {abiertos[id] && (
                 <div className="bg-gray-900 px-4 py-3">
-                  <p><strong>Título:</strong> {attr.titulo}</p>
+                  <p><strong>Dispositivo:</strong> <span
+                    className="underline cursor-pointer"
+                    onClick={() => router.push(`/tecnico/dispositivo/${dispId}`)}
+                  >
+                    {disp?.tipo_dispositivo} - {disp?.modelo}
+                  </span></p>
                   <p><strong>Descripción:</strong> {attr.descripcion}</p>
                   <button
-                    onClick={() => router.push(`/incidencia/${id}`)}
+                    onClick={() => router.push(`/tecnico/incidencia/${id}`)}
                     className="mt-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
                   >
                     Ver Detalle
@@ -112,7 +118,12 @@ export default function Tecnico() {
                 {usu.dispositivos?.length > 0 ? (
                   usu.dispositivos.map((d, idx) => (
                     <div key={idx} className="mb-2">
-                      <p>{d.tipo_dispositivo} - {d.modelo}</p>
+                      <p
+                        className="underline cursor-pointer"
+                        onClick={() => router.push(`/tecnico/dispositivo/${d.id}`)}
+                      >
+                        {d.tipo_dispositivo} - {d.modelo}
+                      </p>
                       <span className={`text-xs px-2 py-1 rounded text-white ${getEstadoColor(d.estado)}`}>{d.estado}</span>
                     </div>
                   ))
