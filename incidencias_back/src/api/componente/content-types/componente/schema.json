@@ -30,6 +30,12 @@
       "relation": "manyToOne",
       "target": "api::dispositivo.dispositivo",
       "inversedBy": "componentes"
+    },
+    "comentarios": {
+      "type": "relation",
+      "relation": "oneToMany",
+      "target": "api::comentario.comentario",
+      "mappedBy": "componente"
     }
   }
 }

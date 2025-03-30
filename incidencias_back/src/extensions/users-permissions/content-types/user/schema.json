@@ -85,11 +85,11 @@
       "target": "api::dispositivo.dispositivo",
       "mappedBy": "user"
     },
-    "incidencia": {
+    "comentarios": {
       "type": "relation",
       "relation": "oneToMany",
-      "target": "api::incidencia.incidencia",
-      "mappedBy": "users_permissions_user"
+      "target": "api::comentario.comentario",
+      "mappedBy": "user"
     }
   }
 }

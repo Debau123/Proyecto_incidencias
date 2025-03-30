@@ -734,10 +734,10 @@ export interface PluginUsersPermissionsUser extends Schema.CollectionType {
       'oneToMany',
       'api::dispositivo.dispositivo'
     >;
-    incidencia: Attribute.Relation<
+    comentarios: Attribute.Relation<
       'plugin::users-permissions.user',
       'oneToMany',
-      'api::incidencia.incidencia'
+      'api::comentario.comentario'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -803,6 +803,63 @@ export interface PluginI18NLocale extends Schema.CollectionType {
   };
 }
 
+export interface ApiComentarioComentario extends Schema.CollectionType {
+  collectionName: 'comentarios';
+  info: {
+    singularName: 'comentario';
+    pluralName: 'comentarios';
+    displayName: 'Comentario';
+    description: '';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    contenido: Attribute.String;
+    imagen: Attribute.Media;
+    user: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'plugin::users-permissions.user'
+    >;
+    incidencia: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'api::incidencia.incidencia'
+    >;
+    componente: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'api::componente.componente'
+    >;
+    parent: Attribute.Relation<
+      'api::comentario.comentario',
+      'manyToOne',
+      'api::comentario.comentario'
+    >;
+    comentarios: Attribute.Relation<
+      'api::comentario.comentario',
+      'oneToMany',
+      'api::comentario.comentario'
+    >;
+    createdAt: Attribute.DateTime;
+    updatedAt: Attribute.DateTime;
+    publishedAt: Attribute.DateTime;
+    createdBy: Attribute.Relation<
+      'api::comentario.comentario',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+    updatedBy: Attribute.Relation<
+      'api::comentario.comentario',
+      'oneToOne',
+      'admin::user'
+    > &
+      Attribute.Private;
+  };
+}
+
 export interface ApiComponenteComponente extends Schema.CollectionType {
   collectionName: 'componentes';
   info: {
@@ -823,6 +880,11 @@ export interface ApiComponenteComponente extends Schema.CollectionType {
       'api::componente.componente',
       'manyToOne',
       'api::dispositivo.dispositivo'
+    >;
+    comentarios: Attribute.Relation<
+      'api::componente.componente',
+      'oneToMany',
+      'api::comentario.comentario'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -925,15 +987,15 @@ export interface ApiIncidenciaIncidencia extends Schema.CollectionType {
       'manyToOne',
       'plugin::users-permissions.user'
     >;
-    users_permissions_user: Attribute.Relation<
-      'api::incidencia.incidencia',
-      'manyToOne',
-      'plugin::users-permissions.user'
-    >;
     dispositivo: Attribute.Relation<
       'api::incidencia.incidencia',
       'manyToOne',
       'api::dispositivo.dispositivo'
+    >;
+    comentarios: Attribute.Relation<
+      'api::incidencia.incidencia',
+      'oneToMany',
+      'api::comentario.comentario'
     >;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
@@ -1051,6 +1113,7 @@ declare module '@strapi/types' {
       'plugin::users-permissions.role': PluginUsersPermissionsRole;
       'plugin::users-permissions.user': PluginUsersPermissionsUser;
       'plugin::i18n.locale': PluginI18NLocale;
+      'api::comentario.comentario': ApiComentarioComentario;
       'api::componente.componente': ApiComponenteComponente;
       'api::dispositivo.dispositivo': ApiDispositivoDispositivo;
       'api::incidencia.incidencia': ApiIncidenciaIncidencia;

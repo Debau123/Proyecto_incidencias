@@ -1,10 +1,10 @@
 {
   "kind": "collectionType",
-  "collectionName": "incidencias",
+  "collectionName": "comentarios",
   "info": {
-    "singularName": "incidencia",
-    "pluralName": "incidencias",
-    "displayName": "Incidencias",
+    "singularName": "comentario",
+    "pluralName": "comentarios",
+    "displayName": "Comentario",
     "description": ""
   },
   "options": {
@@ -12,22 +12,8 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "titulo": {
+    "contenido": {
       "type": "string"
-    },
-    "descripcion": {
-      "type": "string"
-    },
-    "fecha_creacion": {
-      "type": "datetime"
-    },
-    "estado": {
-      "type": "enumeration",
-      "enum": [
-        "abierta",
-        "en progreso",
-        "resuelta"
-      ]
     },
     "imagen": {
       "type": "media",
@@ -44,19 +30,31 @@
       "type": "relation",
       "relation": "manyToOne",
       "target": "plugin::users-permissions.user",
-      "inversedBy": "incidencias"
+      "inversedBy": "comentarios"
     },
-    "dispositivo": {
+    "incidencia": {
       "type": "relation",
       "relation": "manyToOne",
-      "target": "api::dispositivo.dispositivo",
-      "inversedBy": "incidencias"
+      "target": "api::incidencia.incidencia",
+      "inversedBy": "comentarios"
+    },
+    "componente": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::componente.componente",
+      "inversedBy": "comentarios"
+    },
+    "parent": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::comentario.comentario",
+      "inversedBy": "comentarios"
     },
     "comentarios": {
       "type": "relation",
       "relation": "oneToMany",
       "target": "api::comentario.comentario",
-      "mappedBy": "incidencia"
+      "mappedBy": "parent"
     }
   }
 }

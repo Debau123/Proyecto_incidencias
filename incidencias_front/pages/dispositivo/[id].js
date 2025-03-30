@@ -70,6 +70,22 @@ export default function DetalleDispositivo() {
             {dispositivo.estado.replace('_', ' ')}
           </span>
         </p>
+        <p><button
+  onClick={() => router.push(`/incidencia/nueva?dispositivoId=${id}`)}
+  style={{
+    marginTop: '1.5rem',
+    padding: '0.75rem 1.5rem',
+    backgroundColor: '#3b82f6',
+    border: 'none',
+    borderRadius: '8px',
+    color: 'white',
+    fontWeight: 'bold',
+    cursor: 'pointer',
+  }}
+>
+  Crear Incidencia
+</button>
+</p>
       </div>
     </div>
   );
