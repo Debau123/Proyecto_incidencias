@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import ChatBotFloating from '../components/ChatBotFloating'; // 👈 Import del chatbot
 
 export default function UsuarioPage() {
   const [dispositivos, setDispositivos] = useState(null);
@@ -95,16 +96,18 @@ export default function UsuarioPage() {
                   <a href={`/dispositivo/${d.id}`} style={{ color: '#3b82f6', textDecoration: 'underline' }}>
                     {d.tipo_dispositivo} - {d.marca} {d.modelo}
                   </a>
-                  <span style={{
-                    marginLeft: '1rem',
-                    backgroundColor: getEstadoColor(d.estado),
-                    padding: '4px 8px',
-                    borderRadius: '6px',
-                    fontSize: '0.9rem',
-                    textTransform: 'capitalize',
-                  }}>
-                    {d.estado.replace('_', ' ')}
-                  </span>
+                  {d.estado && (
+                    <span style={{
+                      marginLeft: '1rem',
+                      backgroundColor: getEstadoColor(d.estado),
+                      padding: '4px 8px',
+                      borderRadius: '6px',
+                      fontSize: '0.9rem',
+                      textTransform: 'capitalize',
+                    }}>
+                      {d.estado.replace('_', ' ')}
+                    </span>
+                  )}
                 </summary>
                 <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
                   <p><strong>Nº Serie:</strong> {d.numero_serie}</p>
@@ -115,7 +118,6 @@ export default function UsuarioPage() {
             </li>
           ))}
         </ul>
-        
       )}
 
       <h2 style={{ color: 'white', marginTop: '3rem' }}>🛠 Incidencias Abiertas</h2>
@@ -141,17 +143,19 @@ export default function UsuarioPage() {
                     <span style={{ marginLeft: '1rem' }}>
                       {attrs.dispositivo?.data?.attributes?.modelo}
                     </span>
-                    <span style={{
-                      marginLeft: '1rem',
-                      backgroundColor: getIncidenciaEstadoColor(attrs.estado),
-                      padding: '4px 8px',
-                      borderRadius: '6px',
-                      fontSize: '0.9rem',
-                      fontWeight: 'bold',
-                      textTransform: 'capitalize',
-                    }}>
-                      {attrs.estado.replace('_', ' ')}
-                    </span>
+                    {attrs.estado && (
+                      <span style={{
+                        marginLeft: '1rem',
+                        backgroundColor: getIncidenciaEstadoColor(attrs.estado),
+                        padding: '4px 8px',
+                        borderRadius: '6px',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold',
+                        textTransform: 'capitalize',
+                      }}>
+                        {attrs.estado.replace('_', ' ')}
+                      </span>
+                    )}
                   </summary>
                   <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
                     <p><strong>Descripción:</strong> {attrs.descripcion}</p>
@@ -187,17 +191,19 @@ export default function UsuarioPage() {
                     <span style={{ marginLeft: '1rem' }}>
                       {attrs.dispositivo?.data?.attributes?.modelo}
                     </span>
-                    <span style={{
-                      marginLeft: '1rem',
-                      backgroundColor: getIncidenciaEstadoColor(attrs.estado),
-                      padding: '4px 8px',
-                      borderRadius: '6px',
-                      fontSize: '0.9rem',
-                      fontWeight: 'bold',
-                      textTransform: 'capitalize',
-                    }}>
-                      {attrs.estado.replace('_', ' ')}
-                    </span>
+                    {attrs.estado && (
+                      <span style={{
+                        marginLeft: '1rem',
+                        backgroundColor: getIncidenciaEstadoColor(attrs.estado),
+                        padding: '4px 8px',
+                        borderRadius: '6px',
+                        fontSize: '0.9rem',
+                        fontWeight: 'bold',
+                        textTransform: 'capitalize',
+                      }}>
+                        {attrs.estado.replace('_', ' ')}
+                      </span>
+                    )}
                   </summary>
                   <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
                     <p><strong>Descripción:</strong> {attrs.descripcion}</p>
@@ -209,6 +215,8 @@ export default function UsuarioPage() {
           })}
         </ul>
       )}
+
+      <ChatBotFloating /> {/* 👈 Botón de chatbot flotante al final */}
     </div>
   );
 }

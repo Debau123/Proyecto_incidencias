@@ -18,7 +18,7 @@
     "version": {
       "type": "string"
     },
-    "usuario_contrasena": {
+    "usuario": {
       "type": "string"
     },
     "licencia": {
@@ -32,6 +32,9 @@
       "relation": "manyToOne",
       "target": "api::dispositivo.dispositivo",
       "inversedBy": "software"
+    },
+    "contrasena": {
+      "type": "string"
     }
   }
 }

@@ -25,7 +25,7 @@
       "type": "enumeration",
       "enum": [
         "abierta",
-        "en progreso",
+        "en_progreso",
         "resuelta"
       ]
     },

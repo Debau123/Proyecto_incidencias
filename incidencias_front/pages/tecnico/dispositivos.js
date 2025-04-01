@@ -1,6 +1,7 @@
 // pages/tecnico/dispositivos.js
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
+import Link from 'next/link';
 
 export default function VistaDispositivos() {
   const router = useRouter();
@@ -50,29 +51,52 @@ export default function VistaDispositivos() {
     );
   };
 
+  const estadoColor = (estado) => {
+    switch (estado) {
+      case 'operativo':
+        return 'text-green-400';
+      case 'mantenimiento':
+        return 'text-yellow-400';
+      case 'averiado':
+      case 'fuera de servicio':
+        return 'text-red-400';
+      default:
+        return 'text-gray-300';
+    }
+  };
+
   return (
-    <div className="p-6 text-white">
-      <h1 className="text-3xl font-bold mb-6">Dispositivos</h1>
-      {dispositivos.map((d) => {
-        const { tipo_dispositivo, modelo, estado } = d.attributes;
-        const nombreUsuario = d.attributes.user?.data?.attributes?.username || 'Sin usuario';
-        return (
-          <div key={d.id} className="bg-gray-800 p-4 rounded mb-4">
-            <p className="font-semibold">{tipo_dispositivo} - {modelo}</p>
-            <p className="text-sm text-gray-400 mb-2">Usuario: {nombreUsuario}</p>
-            <select
-              className="text-black rounded px-2 py-1"
-              value={estado}
-              onChange={(e) => handleEstadoChange(d.id, e.target.value)}
-            >
-              <option value="operativo">Operativo</option>
-              <option value="averiado">Averiado</option>
-              <option value="mantenimiento">Mantenimiento</option>
-              <option value="fuera de servicio">Fuera de servicio</option>
-            </select>
-          </div>
-        );
-      })}
+    <div className="p-8 bg-gray-900 min-h-screen text-white">
+      <h1 className="text-4xl font-extrabold mb-8 text-center">Listado de Dispositivos</h1>
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {dispositivos.map((d) => {
+          const { tipo_dispositivo, modelo, estado } = d.attributes;
+          const nombreUsuario = d.attributes.user?.data?.attributes?.username || 'Sin usuario';
+          return (
+            <div key={d.id} className="bg-gray-800 rounded-xl shadow-lg p-6 hover:shadow-2xl transition-shadow">
+              <Link href={`/tecnico/dispositivo/${d.id}`}>
+                <h2 className="text-xl font-bold text-blue-400 hover:underline mb-2 cursor-pointer">
+                  {tipo_dispositivo} - {modelo}
+                </h2>
+              </Link>
+              <p className="text-sm text-gray-400 mb-4">Asignado a: <span className="text-white">{nombreUsuario}</span></p>
+              <div className="flex flex-col gap-2">
+                <label className="text-sm text-gray-300 font-medium">Estado actual:</label>
+                <select
+                  className={`rounded px-3 py-2 bg-gray-700 text-white border border-gray-600 focus:outline-none focus:ring-2 focus:ring-blue-500 ${estadoColor(estado)}`}
+                  value={estado}
+                  onChange={(e) => handleEstadoChange(d.id, e.target.value)}
+                >
+                  <option value="operativo">Operativo</option>
+                  <option value="averiado">Averiado</option>
+                  <option value="mantenimiento">Mantenimiento</option>
+                  <option value="fuera de servicio">Fuera de servicio</option>
+                </select>
+              </div>
+            </div>
+          );
+        })}
+      </div>
     </div>
   );
 }

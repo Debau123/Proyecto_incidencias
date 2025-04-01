@@ -102,6 +102,20 @@ export default function DetalleIncidencia() {
 
     await fetchComentarios();
   };
+  const eliminarIncidencia = async () => {
+    const confirmado = window.confirm('¿Estás seguro de que quieres eliminar esta incidencia?');
+    if (!confirmado) return;
+
+    const token = localStorage.getItem('token');
+    await fetch(`http://localhost:1339/api/incidencias/${id}`, {
+      method: 'DELETE',
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    router.push('/usuario'); // Redirigir al usuario a su panel tras eliminar
+  };
 
   const handleImageChange = (e) => {
     const files = Array.from(e.target.files);
@@ -125,6 +139,7 @@ export default function DetalleIncidencia() {
             borderRadius: '8px',
             marginBottom: '1rem'
           }}>
+            
             <p style={{ marginBottom: '0.3rem' }}>
               <strong style={{ color: '#3b82f6' }}>
                 {c.attributes.user?.data?.attributes?.username ?? 'Usuario'}
@@ -239,6 +254,20 @@ export default function DetalleIncidencia() {
         <button onClick={() => setMostrarFormulario(!mostrarFormulario)}
           style={{ marginTop: '2rem', backgroundColor: '#3b82f6', color: 'white', padding: '0.6rem 1.2rem', border: 'none', borderRadius: '6px' }}>
           {mostrarFormulario ? 'Cancelar' : 'Añadir Comentario'}
+        </button>
+        <button
+          onClick={eliminarIncidencia}
+          style={{
+            marginTop: '1rem',
+            marginLeft: '2rem',
+            backgroundColor: '#ef4444',
+            color: 'white',
+            padding: '0.6rem 1.2rem',
+            border: 'none',
+            borderRadius: '6px'
+          }}
+        >
+          Eliminar Incidencia
         </button>
 
         {mostrarFormulario && (

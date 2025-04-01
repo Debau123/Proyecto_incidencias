@@ -1,3 +1,4 @@
+// pages/tecnico/index.js
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/router';
 
@@ -30,7 +31,12 @@ export default function Tecnico() {
         headers: { Authorization: `Bearer ${token}` },
       });
       const dataInc = await resInc.json();
-      setIncidencias(dataInc.data);
+
+      // Filtrar solo las incidencias abiertas o en progreso
+      const incidenciasFiltradas = dataInc.data.filter(
+        (inc) => inc.attributes.estado === 'abierta' || inc.attributes.estado === 'en_progreso'
+      );
+      setIncidencias(incidenciasFiltradas);
 
       const resUsers = await fetch('http://localhost:1339/api/users?populate=dispositivos', {
         headers: { Authorization: `Bearer ${token}` },
@@ -56,85 +62,96 @@ export default function Tecnico() {
   };
 
   return (
-    <div className="p-6 text-white">
-      <h1 className="text-3xl font-bold mb-6">Panel del Técnico</h1>
+    <div className="min-h-screen bg-gray-900 p-8 text-white">
+      <h1 className="text-4xl font-extrabold mb-10 text-center">Panel del Técnico</h1>
 
       {/* INCIDENCIAS */}
-      <div className="mb-10">
-        <h2 className="text-2xl font-semibold mb-4">Incidencias</h2>
-        {incidencias.map((inc) => {
-          const id = inc.id;
-          const attr = inc.attributes;
-          const disp = attr.dispositivo?.data?.attributes;
-          const dispId = attr.dispositivo?.data?.id;
-          const usu = attr.user?.data?.attributes;
-          return (
-            <div key={id} className="mb-2 border border-gray-600 rounded-lg overflow-hidden">
-              <div
-                className="bg-gray-800 p-4 flex justify-between items-center cursor-pointer hover:bg-gray-700"
-                onClick={() => setAbiertos(prev => ({ ...prev, [id]: !prev[id] }))}
-              >
-                <div>
-                  <p className="font-semibold">{attr.titulo}</p>
-                  <p className="text-sm text-gray-400">Usuario: {usu?.username}</p>
+      <section className="mb-14">
+        <h2 className="text-2xl font-bold mb-6">🛠 Incidencias</h2>
+        <div className="space-y-4">
+          {incidencias.map((inc) => {
+            const id = inc.id;
+            const attr = inc.attributes;
+            const disp = attr.dispositivo?.data?.attributes;
+            const dispId = attr.dispositivo?.data?.id;
+            const usu = attr.user?.data?.attributes;
+            return (
+              <div key={id} className="bg-gray-800 rounded-xl shadow p-4">
+                <div
+                  className="flex justify-between items-center cursor-pointer hover:bg-gray-700 rounded p-2"
+                  onClick={() => setAbiertos(prev => ({ ...prev, [id]: !prev[id] }))}
+                >
+                  <div>
+                    <p className="text-lg font-semibold">{attr.titulo}</p>
+                    <p className="text-sm text-gray-400">👤 Usuario: {usu?.username}</p>
+                  </div>
+                  <span className={`text-xs px-3 py-1 rounded-full font-medium ${getEstadoColor(attr.estado)}`}>
+                    {attr.estado}
+                  </span>
                 </div>
-                <span className={`text-xs text-white px-2 py-1 rounded ${getEstadoColor(attr.estado)}`}>{attr.estado}</span>
+                {abiertos[id] && (
+                  <div className="mt-3 px-3 py-2 bg-gray-900 rounded-lg space-y-2">
+                    <p>
+                      <strong>Dispositivo:</strong>{' '}
+                      <span
+                        className="underline text-blue-400 cursor-pointer hover:text-blue-300"
+                        onClick={() => router.push(`/tecnico/dispositivo/${dispId}`)}
+                      >
+                        {disp?.tipo_dispositivo} - {disp?.modelo}
+                      </span>
+                    </p>
+                    <p><strong>Descripción:</strong> {attr.descripcion}</p>
+                    <button
+                      onClick={() => router.push(`/tecnico/incidencia/${id}`)}
+                      className="mt-2 bg-blue-600 hover:bg-blue-700 px-4 py-2 rounded font-semibold"
+                    >
+                      Ver Detalle
+                    </button>
+                  </div>
+                )}
               </div>
-              {abiertos[id] && (
-                <div className="bg-gray-900 px-4 py-3">
-                  <p><strong>Dispositivo:</strong> <span
-                    className="underline cursor-pointer"
-                    onClick={() => router.push(`/tecnico/dispositivo/${dispId}`)}
-                  >
-                    {disp?.tipo_dispositivo} - {disp?.modelo}
-                  </span></p>
-                  <p><strong>Descripción:</strong> {attr.descripcion}</p>
-                  <button
-                    onClick={() => router.push(`/tecnico/incidencia/${id}`)}
-                    className="mt-2 bg-blue-600 hover:bg-blue-700 px-3 py-1 rounded text-white"
-                  >
-                    Ver Detalle
-                  </button>
+            );
+          })}
+        </div>
+      </section>
+
+      {/* USUARIOS */}
+      <section>
+        <h2 className="text-2xl font-bold mb-6">👥 Usuarios y Dispositivos</h2>
+        <div className="space-y-4">
+          {usuarios.map((usu) => (
+            <div key={usu.id} className="bg-gray-800 rounded-xl shadow">
+              <div
+                className="p-4 cursor-pointer hover:bg-gray-700 rounded-t-xl font-medium"
+                onClick={() => setUsuariosAbiertos(prev => ({ ...prev, [usu.id]: !prev[usu.id] }))}
+              >
+                👤 {usu.username}
+              </div>
+              {usuariosAbiertos[usu.id] && (
+                <div className="bg-gray-900 px-4 py-3 rounded-b-xl space-y-2">
+                  {usu.dispositivos?.length > 0 ? (
+                    usu.dispositivos.map((d, idx) => (
+                      <div key={idx} className="flex justify-between items-center">
+                        <p
+                          className="underline text-blue-400 cursor-pointer hover:text-blue-300"
+                          onClick={() => router.push(`/tecnico/dispositivo/${d.id}`)}
+                        >
+                          {d.tipo_dispositivo} - {d.modelo}
+                        </p>
+                        <span className={`text-xs px-3 py-1 rounded-full font-medium ${getEstadoColor(d.estado)}`}>
+                          {d.estado}
+                        </span>
+                      </div>
+                    ))
+                  ) : (
+                    <p className="text-gray-400">No tiene dispositivos asignados.</p>
+                  )}
                 </div>
               )}
             </div>
-          );
-        })}
-      </div>
-
-      {/* USUARIOS Y SUS DISPOSITIVOS */}
-      <div>
-        <h2 className="text-2xl font-semibold mb-4">Usuarios</h2>
-        {usuarios.map((usu) => (
-          <div key={usu.id} className="mb-2 border border-gray-600 rounded-lg overflow-hidden">
-            <div
-              className="bg-gray-800 p-4 cursor-pointer hover:bg-gray-700"
-              onClick={() => setUsuariosAbiertos(prev => ({ ...prev, [usu.id]: !prev[usu.id] }))}
-            >
-              👤 <strong>{usu.username}</strong>
-            </div>
-            {usuariosAbiertos[usu.id] && (
-              <div className="bg-gray-900 px-4 py-3">
-                {usu.dispositivos?.length > 0 ? (
-                  usu.dispositivos.map((d, idx) => (
-                    <div key={idx} className="mb-2">
-                      <p
-                        className="underline cursor-pointer"
-                        onClick={() => router.push(`/tecnico/dispositivo/${d.id}`)}
-                      >
-                        {d.tipo_dispositivo} - {d.modelo}
-                      </p>
-                      <span className={`text-xs px-2 py-1 rounded text-white ${getEstadoColor(d.estado)}`}>{d.estado}</span>
-                    </div>
-                  ))
-                ) : (
-                  <p className="text-gray-400">No tiene dispositivos asignados.</p>
-                )}
-              </div>
-            )}
-          </div>
-        ))}
-      </div>
+          ))}
+        </div>
+      </section>
     </div>
   );
 }

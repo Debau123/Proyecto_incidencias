@@ -980,7 +980,7 @@ export interface ApiIncidenciaIncidencia extends Schema.CollectionType {
     titulo: Attribute.String;
     descripcion: Attribute.String;
     fecha_creacion: Attribute.DateTime;
-    estado: Attribute.Enumeration<['abierta', 'en progreso', 'resuelta']>;
+    estado: Attribute.Enumeration<['abierta', 'en_progreso', 'resuelta']>;
     imagen: Attribute.Media;
     user: Attribute.Relation<
       'api::incidencia.incidencia',
@@ -1066,7 +1066,7 @@ export interface ApiSoftwareSoftware extends Schema.CollectionType {
   attributes: {
     nombre_software: Attribute.String;
     version: Attribute.String;
-    usuario_contrasena: Attribute.String;
+    usuario: Attribute.String;
     licencia: Attribute.Relation<
       'api::software.software',
       'oneToOne',
@@ -1077,6 +1077,7 @@ export interface ApiSoftwareSoftware extends Schema.CollectionType {
       'manyToOne',
       'api::dispositivo.dispositivo'
     >;
+    contrasena: Attribute.String;
     createdAt: Attribute.DateTime;
     updatedAt: Attribute.DateTime;
     publishedAt: Attribute.DateTime;
