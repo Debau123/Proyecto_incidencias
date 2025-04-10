@@ -24,7 +24,7 @@ export default function NuevaIncidencia() {
     formData.append('data', JSON.stringify({
       titulo,
       descripcion,
-      estado: 'abierta', // ← fijo
+      estado: 'abierta',
       fecha_creacion: new Date().toISOString(),
       user: user.id,
       dispositivo: dispositivoId,
@@ -46,7 +46,6 @@ export default function NuevaIncidencia() {
       const result = await res.json();
 
       if (res.ok) {
-        // ✅ Ahora actualizamos el dispositivo a estado averiado
         await fetch(`http://localhost:1339/api/dispositivos/${dispositivoId}`, {
           method: 'PUT',
           headers: {
@@ -70,68 +69,54 @@ export default function NuevaIncidencia() {
   };
 
   return (
-    <div style={{ padding: '2rem', color: 'white' }}>
-      <h1>Nueva Incidencia</h1>
-      <form onSubmit={handleSubmit} style={{ maxWidth: '600px' }}>
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Título:</label>
-          <input
-            type="text"
-            value={titulo}
-            onChange={(e) => setTitulo(e.target.value)}
-            required
-            style={inputStyle}
-          />
-        </div>
+    <div className="p-6 bg-white min-h-screen text-gray-800">
+      <div className="max-w-xl mx-auto bg-gray-50 p-6 rounded shadow border border-gray-200">
+        <h1 className="text-2xl font-semibold mb-6">📩 Nueva Incidencia</h1>
+        <form onSubmit={handleSubmit} className="space-y-5">
+          <div>
+            <label className="block font-medium mb-1">Título</label>
+            <input
+              type="text"
+              value={titulo}
+              onChange={(e) => setTitulo(e.target.value)}
+              required
+              className="w-full border rounded px-3 py-2 bg-white text-gray-800"
+            />
+          </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Descripción:</label>
-          <textarea
-            value={descripcion}
-            onChange={(e) => setDescripcion(e.target.value)}
-            required
-            rows={4}
-            style={{ ...inputStyle, resize: 'vertical' }}
-          />
-        </div>
+          <div>
+            <label className="block font-medium mb-1">Descripción</label>
+            <textarea
+              value={descripcion}
+              onChange={(e) => setDescripcion(e.target.value)}
+              required
+              rows={4}
+              className="w-full border rounded px-3 py-2 bg-white text-gray-800 resize-y"
+            />
+          </div>
 
-        <div style={{ marginBottom: '1rem' }}>
-          <label>Imagen (opcional):</label>
-          <input
-            type="file"
-            accept="image/*"
-            onChange={(e) => setImagen(e.target.files[0])}
-            style={inputStyle}
-          />
-        </div>
+          <div>
+            <label className="block font-medium mb-1">Imagen (opcional)</label>
+            <input
+              type="file"
+              accept="image/*"
+              onChange={(e) => setImagen(e.target.files[0])}
+              className="w-full border rounded px-3 py-2 bg-white text-gray-800"
+            />
+          </div>
 
-        <button
-          type="submit"
-          style={{
-            background: '#3b82f6',
-            color: 'white',
-            padding: '0.75rem 1.5rem',
-            border: 'none',
-            borderRadius: '8px',
-            cursor: 'pointer',
-            fontWeight: 'bold',
-          }}
-        >
-          Crear Incidencia
-        </button>
+          <button
+            type="submit"
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold"
+          >
+            Crear Incidencia
+          </button>
 
-        {mensaje && <p style={{ marginTop: '1rem' }}>{mensaje}</p>}
-      </form>
+          {mensaje && (
+            <p className="mt-4 text-green-700 font-medium">{mensaje}</p>
+          )}
+        </form>
+      </div>
     </div>
   );
 }
-
-const inputStyle = {
-  width: '100%',
-  padding: '0.5rem',
-  borderRadius: '6px',
-  border: '1px solid #444',
-  backgroundColor: '#1f2937',
-  color: 'white',
-  fontSize: '1rem',
-};

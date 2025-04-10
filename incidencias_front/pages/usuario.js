@@ -75,41 +75,35 @@ export default function UsuarioPage() {
   const cerradas = incidencias.filter(i => i.attributes.estado === 'resuelta');
 
   return (
-    <div style={{ padding: '2rem' }}>
-      <h2 style={{ color: 'white' }}>Mis Dispositivos</h2>
+    <div className="p-6 bg-white min-h-screen text-gray-800">
+      <h1 className="text-3xl font-semibold mb-6">Mis Dispositivos</h1>
+  
       {dispositivos === null ? (
-        <p style={{ color: 'white' }}>Cargando dispositivos...</p>
+        <p>Cargando dispositivos...</p>
       ) : dispositivos.length === 0 ? (
-        <p style={{ color: 'white' }}>No tienes dispositivos asignados.</p>
+        <p>No tienes dispositivos asignados.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul className="space-y-4">
           {dispositivos.map((d) => (
-            <li key={d.id} style={{
-              background: '#1f2937',
-              margin: '1rem 0',
-              borderRadius: '8px',
-              padding: '1rem',
-              color: '#fff',
-            }}>
+            <li key={d.id} className="bg-gray-50 p-4 rounded shadow">
               <details>
-                <summary style={{ cursor: 'pointer', fontSize: '1.2rem' }}>
-                  <a href={`/dispositivo/${d.id}`} style={{ color: '#3b82f6', textDecoration: 'underline' }}>
+                <summary className="cursor-pointer text-lg font-semibold">
+                  <a
+                    href={`/dispositivo/${d.id}`}
+                    className="text-blue-600 hover:underline"
+                  >
                     {d.tipo_dispositivo} - {d.marca} {d.modelo}
                   </a>
                   {d.estado && (
-                    <span style={{
-                      marginLeft: '1rem',
-                      backgroundColor: getEstadoColor(d.estado),
-                      padding: '4px 8px',
-                      borderRadius: '6px',
-                      fontSize: '0.9rem',
-                      textTransform: 'capitalize',
-                    }}>
-                      {d.estado.replace('_', ' ')}
+                    <span
+                      className="ml-4 text-xs font-medium px-2 py-1 rounded"
+                      style={{ backgroundColor: getEstadoColor(d.estado), color: "white" }}
+                    >
+                      {d.estado.replace("_", " ")}
                     </span>
                   )}
                 </summary>
-                <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
+                <div className="mt-2 pl-4 text-sm">
                   <p><strong>Nº Serie:</strong> {d.numero_serie}</p>
                   <p><strong>Fecha compra:</strong> {d.fecha_compra}</p>
                   <p><strong>Garantía hasta:</strong> {d.fecha_garantia_fin}</p>
@@ -119,47 +113,40 @@ export default function UsuarioPage() {
           ))}
         </ul>
       )}
-
-      <h2 style={{ color: 'white', marginTop: '3rem' }}>🛠 Incidencias Abiertas</h2>
+  
+      {/* Incidencias abiertas */}
+      <h2 className="text-2xl font-bold mt-10 mb-4">🛠 Incidencias Abiertas</h2>
       {abiertas.length === 0 ? (
-        <p style={{ color: 'white' }}>No tienes incidencias abiertas.</p>
+        <p>No tienes incidencias abiertas.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul className="space-y-4">
           {abiertas.map((i) => {
-            const attrs = i.attributes;
+            const a = i.attributes;
             return (
-              <li key={i.id} style={{
-                background: '#1f2937',
-                margin: '1rem 0',
-                borderRadius: '8px',
-                padding: '1rem',
-                color: '#fff',
-              }}>
+              <li key={i.id} className="bg-gray-50 p-4 rounded shadow">
                 <details>
-                  <summary style={{ cursor: 'pointer', fontSize: '1.1rem' }}>
-                    <a href={`/incidencia/${i.id}`} style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: 'bold' }}>
-                      {attrs.titulo}
+                  <summary className="cursor-pointer text-base font-semibold">
+                    <a
+                      href={`/incidencia/${i.id}`}
+                      className="text-blue-600 hover:underline font-bold"
+                    >
+                      {a.titulo}
                     </a>
-                    <span style={{ marginLeft: '1rem' }}>
-                      {attrs.dispositivo?.data?.attributes?.modelo}
+                    <span className="ml-2 text-sm text-gray-600">
+                      {a.dispositivo?.data?.attributes?.modelo}
                     </span>
-                    {attrs.estado && (
-                      <span style={{
-                        marginLeft: '1rem',
-                        backgroundColor: getIncidenciaEstadoColor(attrs.estado),
-                        padding: '4px 8px',
-                        borderRadius: '6px',
-                        fontSize: '0.9rem',
-                        fontWeight: 'bold',
-                        textTransform: 'capitalize',
-                      }}>
-                        {attrs.estado.replace('_', ' ')}
+                    {a.estado && (
+                      <span
+                        className="ml-4 text-xs font-medium px-2 py-1 rounded"
+                        style={{ backgroundColor: getIncidenciaEstadoColor(a.estado), color: "white" }}
+                      >
+                        {a.estado.replace("_", " ")}
                       </span>
                     )}
                   </summary>
-                  <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
-                    <p><strong>Descripción:</strong> {attrs.descripcion}</p>
-                    <p><strong>Fecha creación:</strong> {new Date(attrs.fecha_creacion).toLocaleString()}</p>
+                  <div className="mt-2 pl-4 text-sm">
+                    <p><strong>Descripción:</strong> {a.descripcion}</p>
+                    <p><strong>Fecha creación:</strong> {new Date(a.fecha_creacion).toLocaleString()}</p>
                   </div>
                 </details>
               </li>
@@ -167,47 +154,40 @@ export default function UsuarioPage() {
           })}
         </ul>
       )}
-
-      <h2 style={{ color: 'white', marginTop: '3rem' }}>📜 Historial de Incidencias Cerradas</h2>
+  
+      {/* Incidencias cerradas */}
+      <h2 className="text-2xl font-bold mt-10 mb-4">📜 Historial de Incidencias Cerradas</h2>
       {cerradas.length === 0 ? (
-        <p style={{ color: 'white' }}>No tienes incidencias cerradas.</p>
+        <p>No tienes incidencias cerradas.</p>
       ) : (
-        <ul style={{ listStyle: 'none', padding: 0 }}>
+        <ul className="space-y-4">
           {cerradas.map((i) => {
-            const attrs = i.attributes;
+            const a = i.attributes;
             return (
-              <li key={i.id} style={{
-                background: '#1f2937',
-                margin: '1rem 0',
-                borderRadius: '8px',
-                padding: '1rem',
-                color: '#fff',
-              }}>
+              <li key={i.id} className="bg-gray-50 p-4 rounded shadow">
                 <details>
-                  <summary style={{ cursor: 'pointer', fontSize: '1.1rem' }}>
-                    <a href={`/incidencia/${i.id}`} style={{ color: '#3b82f6', textDecoration: 'underline', fontWeight: 'bold' }}>
-                      {attrs.titulo}
+                  <summary className="cursor-pointer text-base font-semibold">
+                    <a
+                      href={`/incidencia/${i.id}`}
+                      className="text-blue-600 hover:underline font-bold"
+                    >
+                      {a.titulo}
                     </a>
-                    <span style={{ marginLeft: '1rem' }}>
-                      {attrs.dispositivo?.data?.attributes?.modelo}
+                    <span className="ml-2 text-sm text-gray-600">
+                      {a.dispositivo?.data?.attributes?.modelo}
                     </span>
-                    {attrs.estado && (
-                      <span style={{
-                        marginLeft: '1rem',
-                        backgroundColor: getIncidenciaEstadoColor(attrs.estado),
-                        padding: '4px 8px',
-                        borderRadius: '6px',
-                        fontSize: '0.9rem',
-                        fontWeight: 'bold',
-                        textTransform: 'capitalize',
-                      }}>
-                        {attrs.estado.replace('_', ' ')}
+                    {a.estado && (
+                      <span
+                        className="ml-4 text-xs font-medium px-2 py-1 rounded"
+                        style={{ backgroundColor: getIncidenciaEstadoColor(a.estado), color: "white" }}
+                      >
+                        {a.estado.replace("_", " ")}
                       </span>
                     )}
                   </summary>
-                  <div style={{ marginTop: '1rem', paddingLeft: '1rem' }}>
-                    <p><strong>Descripción:</strong> {attrs.descripcion}</p>
-                    <p><strong>Resuelta el:</strong> {new Date(attrs.updatedAt).toLocaleDateString()}</p>
+                  <div className="mt-2 pl-4 text-sm">
+                    <p><strong>Descripción:</strong> {a.descripcion}</p>
+                    <p><strong>Resuelta el:</strong> {new Date(a.updatedAt).toLocaleDateString()}</p>
                   </div>
                 </details>
               </li>
@@ -215,8 +195,8 @@ export default function UsuarioPage() {
           })}
         </ul>
       )}
-
-      <ChatBotFloating /> {/* 👈 Botón de chatbot flotante al final */}
+  
+      <ChatBotFloating />
     </div>
   );
-}
+}  

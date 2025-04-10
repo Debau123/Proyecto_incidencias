@@ -15,8 +15,7 @@ export default function DetalleDispositivo() {
       try {
         const res = await fetch(`http://localhost:1339/api/dispositivos/${id}`, {
           headers: {
-            Authorization: `Bearer ${token}`,
-          },
+            Authorization: `Bearer ${token}` },
         });
         const data = await res.json();
         setDispositivo(data.data?.attributes || null);
@@ -29,63 +28,37 @@ export default function DetalleDispositivo() {
   }, [id]);
 
   if (!dispositivo) {
-    return <p style={{ color: 'white', padding: '2rem' }}>Cargando dispositivo...</p>;
+    return <p className="p-6 text-gray-600">Cargando dispositivo...</p>;
   }
 
   return (
-    <div style={{ padding: '2rem', display: 'flex', justifyContent: 'center' }}>
-      <div
-        style={{
-          background: '#1f2937',
-          color: '#fff',
-          padding: '2rem',
-          borderRadius: '16px',
-          boxShadow: '0 8px 24px rgba(0,0,0,0.4)',
-          maxWidth: '600px',
-          width: '100%',
-        }}
-      >
-        <h2 style={{ marginBottom: '1.5rem', borderBottom: '1px solid #374151', paddingBottom: '0.5rem' }}>
-          🖥️ Detalles del Dispositivo
-        </h2>
-        <p><strong>🔧 Tipo:</strong> {dispositivo.tipo_dispositivo}</p>
-        <p><strong>🏷️ Marca:</strong> {dispositivo.marca}</p>
-        <p><strong>📦 Modelo:</strong> {dispositivo.modelo}</p>
-        <p><strong>🔢 Nº Serie:</strong> {dispositivo.numero_serie}</p>
-        <p><strong>🗓️ Fecha de compra:</strong> {dispositivo.fecha_compra}</p>
-        <p><strong>📅 Garantía hasta:</strong> {dispositivo.fecha_garantia_fin}</p>
-        <p>
-          <strong>⚠️ Estado:</strong>{' '}
-          <span
-            style={{
-              backgroundColor: getEstadoColor(dispositivo.estado),
-              padding: '4px 8px',
-              borderRadius: '8px',
-              color: '#fff',
-              fontWeight: 'bold',
-              marginLeft: '0.5rem',
-              textTransform: 'capitalize',
-            }}
+    <div className="p-6 bg-white min-h-screen text-gray-800 flex justify-center">
+      <div className="bg-gray-50 p-6 rounded shadow max-w-xl w-full border border-gray-200">
+        <h2 className="text-2xl font-semibold mb-6 border-b pb-2">🖥️ Detalles del Dispositivo</h2>
+
+        <div className="space-y-3 text-sm md:text-base">
+          <p><strong>🔧 Tipo:</strong> {dispositivo.tipo_dispositivo}</p>
+          <p><strong>🏷️ Marca:</strong> {dispositivo.marca}</p>
+          <p><strong>📦 Modelo:</strong> {dispositivo.modelo}</p>
+          <p><strong>🔢 Nº Serie:</strong> {dispositivo.numero_serie}</p>
+          <p><strong>🗓️ Fecha de compra:</strong> {dispositivo.fecha_compra}</p>
+          <p><strong>📅 Garantía hasta:</strong> {dispositivo.fecha_garantia_fin || 'No especificada'}</p>
+          <p className="flex items-center gap-2">
+            <strong>⚠️ Estado:</strong>
+            <span className={`text-xs px-2 py-1 rounded font-medium text-white ${getEstadoColor(dispositivo.estado)}`}>
+              {dispositivo.estado.replace('_', ' ')}
+            </span>
+          </p>
+        </div>
+
+        <div className="mt-6">
+          <button
+            onClick={() => router.push(`/incidencia/nueva?dispositivoId=${id}`)}
+            className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded font-semibold"
           >
-            {dispositivo.estado.replace('_', ' ')}
-          </span>
-        </p>
-        <p><button
-  onClick={() => router.push(`/incidencia/nueva?dispositivoId=${id}`)}
-  style={{
-    marginTop: '1.5rem',
-    padding: '0.75rem 1.5rem',
-    backgroundColor: '#3b82f6',
-    border: 'none',
-    borderRadius: '8px',
-    color: 'white',
-    fontWeight: 'bold',
-    cursor: 'pointer',
-  }}
->
-  Crear Incidencia
-</button>
-</p>
+            Crear Incidencia
+          </button>
+        </div>
       </div>
     </div>
   );
@@ -95,13 +68,13 @@ export default function DetalleDispositivo() {
 function getEstadoColor(estado) {
   switch (estado) {
     case 'operativo':
-      return '#16a34a'; // verde
+      return 'bg-green-600';
     case 'mantenimiento':
-      return '#eab308'; // amarillo
+      return 'bg-yellow-500';
     case 'averiado':
     case 'fuera_servicio':
-      return '#dc2626'; // rojo
+      return 'bg-red-600';
     default:
-      return '#6b7280'; // gris
+      return 'bg-gray-500';
   }
 }

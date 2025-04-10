@@ -1,4 +1,3 @@
-// pages/tecnico/dispositivo/[id].js
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
 
@@ -28,9 +27,12 @@ export default function VistaDispositivo() {
       if (!id) return;
       const token = localStorage.getItem('token');
 
-      const res = await fetch(`http://localhost:1339/api/dispositivos/${id}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const res = await fetch(
+        `http://localhost:1339/api/dispositivos/${id}?populate=software,componentes`,
+        {
+          headers: { Authorization: `Bearer ${token}` },
+        }
+      );
 
       const data = await res.json();
       setDispositivo(data.data);
@@ -82,6 +84,7 @@ export default function VistaDispositivo() {
         <h1 className="text-3xl font-extrabold mb-6 text-blue-400">
           {disp?.tipo_dispositivo} - {disp?.modelo}
         </h1>
+
         <div className="space-y-3 text-lg">
           <p><span className="font-semibold">Marca:</span> {disp?.marca}</p>
           <p><span className="font-semibold">Nº Serie:</span> {disp?.numero_serie}</p>
@@ -111,6 +114,86 @@ export default function VistaDispositivo() {
             Guardar cambios
           </button>
         </div>
+
+        {/* SOFTWARE INSTALADO */}
+        {disp?.software && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-blue-400 mb-4">Software instalado</h2>
+            {disp.software.data.length > 0 ? (
+              <ul className="space-y-3">
+                {disp.software.data.map((sw) => {
+                  const s = sw.attributes;
+                  const nombre = s.nombre_software?.toLowerCase();
+
+                  return (
+                    <li key={sw.id} className="bg-gray-700 p-4 rounded">
+                      <p className="font-semibold text-white">
+                        {s.nombre_software} {s.version && `v${s.version}`}
+                      </p>
+
+                      {(nombre.includes('anydesk') || nombre.includes('anydesck')) && (
+                        <>
+                          <p className="text-sm mt-1 text-gray-300">
+                            <strong>ID AnyDesk:</strong> {s.usuario}
+                          </p>
+                          <p className="text-sm text-gray-300">
+                            <strong>Contraseña:</strong> {s.contrasena}
+                          </p>
+
+                          {/* BOTÓN 1: INTENTAR CONECTAR AUTOMÁTICAMENTE */}
+                          <a
+                            href={`anydesk:${s.usuario}`}
+                            className="inline-block mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded mr-2"
+                          >
+                            Conectar automáticamente con AnyDesk
+                          </a>
+
+                          {/* BOTÓN 2: COPIAR ID */}
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(s.usuario);
+                              alert("ID AnyDesk copiado al portapapeles. Abre AnyDesk y pégalo.");
+                            }}
+                            className="inline-block mt-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded"
+                          >
+                            Copiar ID y conectar manualmente
+                          </button>
+                        </>
+                      )}
+
+                      {nombre.includes('windows') && (
+                        <p className="text-sm mt-1 text-gray-300">
+                          <strong>Contraseña de inicio:</strong> {s.contrasena}
+                        </p>
+                      )}
+                    </li>
+                  );
+                })}
+              </ul>
+            ) : (
+              <p className="text-gray-400 italic">No hay software instalado.</p>
+            )}
+          </div>
+        )}
+
+        {/* COMPONENTES */}
+        {disp?.componentes?.data?.length > 0 && (
+          <div className="mt-8">
+            <h2 className="text-2xl font-bold text-blue-400 mb-4">Componentes</h2>
+            <ul className="space-y-3">
+              {disp.componentes.data.map((comp) => {
+                const c = comp.attributes;
+                return (
+                  <li key={comp.id} className="bg-gray-700 p-4 rounded">
+                    <p><strong>Tipo:</strong> {c.tipo_componente}</p>
+                    <p><strong>Descripción:</strong> {c.descripcion}</p>
+                    <p><strong>Especificaciones:</strong> {c.especificaciones}</p>
+                  </li>
+                );
+              })}
+            </ul>
+          </div>
+        )}
       </div>
     </div>
   );
