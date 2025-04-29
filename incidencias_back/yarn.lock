@@ -1418,6 +1418,25 @@
     prop-types "^15.8.1"
     react-remove-scroll "^2.5.7"
 
+"@strapi/design-system@1.19.0":
+  version "1.19.0"
+  resolved "https://registry.npmjs.org/@strapi/design-system/-/design-system-1.19.0.tgz"
+  integrity sha512-kEQNaRztIcr6I5Zh6mxtE/Nmkk1mylCS5s56ySKDdqOjWZw2BCbS72/J9k6r1RF1TLIDSXJN9r5dHR0ZKtWvBQ==
+  dependencies:
+    "@codemirror/lang-json" "^6.0.1"
+    "@floating-ui/react-dom" "^2.0.8"
+    "@internationalized/date" "^3.5.2"
+    "@internationalized/number" "^3.5.1"
+    "@radix-ui/react-dismissable-layer" "^1.0.5"
+    "@radix-ui/react-dropdown-menu" "^2.0.6"
+    "@radix-ui/react-focus-scope" "1.0.4"
+    "@strapi/ui-primitives" "^1.19.0"
+    "@uiw/react-codemirror" "^4.21.25"
+    aria-hidden "^1.2.4"
+    compute-scroll-into-view "^3.1.0"
+    prop-types "^15.8.1"
+    react-remove-scroll "^2.5.9"
+
 "@strapi/generate-new@4.20.5":
   version "4.20.5"
   resolved "https://registry.npmjs.org/@strapi/generate-new/-/generate-new-4.20.5.tgz"
@@ -1466,10 +1485,31 @@
     react-query "3.39.3"
     react-select "5.7.0"
 
+"@strapi/helper-plugin@4.25.12":
+  version "4.25.12"
+  resolved "https://registry.npmjs.org/@strapi/helper-plugin/-/helper-plugin-4.25.12.tgz"
+  integrity sha512-W4Jl+r0XaLZI1yfIEq/SIjrCiOojSG+x/+A92hK4wgwYlNVd5Iw7oQB8VVj935JQbpFzwQhMGCPrth1NaL7sWg==
+  dependencies:
+    axios "1.7.4"
+    date-fns "2.30.0"
+    formik "2.4.0"
+    immer "9.0.19"
+    lodash "4.17.21"
+    qs "6.11.1"
+    react-helmet "6.1.0"
+    react-intl "6.4.1"
+    react-query "3.39.3"
+    react-select "5.7.0"
+
 "@strapi/icons@^1.5.0", "@strapi/icons@1.16.0":
   version "1.16.0"
   resolved "https://registry.npmjs.org/@strapi/icons/-/icons-1.16.0.tgz"
   integrity sha512-sa7MTlhHpbpFCS5ZIlgLQQtG4s5W7ojGFr6CsjwtFdezrvBLbY5ZGmVByghK7b3XoZ1bNYk1AiGdcxMQvCu+vw==
+
+"@strapi/icons@1.19.0":
+  version "1.19.0"
+  resolved "https://registry.npmjs.org/@strapi/icons/-/icons-1.19.0.tgz"
+  integrity sha512-jcS7n3Ps+73fYGadxdaD6owazoDJKN1fHSG9dp8RX4RqkP6BfoHOX5j3aodVLmDX57Ksg6gy5JXf9xEml7nMpQ==
 
 "@strapi/logger@4.20.5":
   version "4.20.5"
@@ -1562,6 +1602,22 @@
     react-helmet "^6.1.0"
     react-intl "6.4.1"
     react-redux "8.1.1"
+    yup "0.32.9"
+
+"@strapi/plugin-email@^4.25.12":
+  version "4.25.12"
+  resolved "https://registry.npmjs.org/@strapi/plugin-email/-/plugin-email-4.25.12.tgz"
+  integrity sha512-89s7hfx3eKpMhju6C/RhdQgpBZtiI44lPfuRSewH3pIBu1lUFL+6GzUpEQME7qi1Way+eC4AWqB5t8uQp5FPDg==
+  dependencies:
+    "@strapi/design-system" "1.19.0"
+    "@strapi/helper-plugin" "4.25.12"
+    "@strapi/icons" "1.19.0"
+    "@strapi/provider-email-sendmail" "4.25.12"
+    "@strapi/utils" "4.25.12"
+    lodash "4.17.21"
+    prop-types "^15.8.1"
+    react-intl "6.4.1"
+    react-query "3.39.3"
     yup "0.32.9"
 
 "@strapi/plugin-email@4.20.5":
@@ -1664,12 +1720,28 @@
   resolved "https://registry.npmjs.org/@strapi/provider-audit-logs-local/-/provider-audit-logs-local-4.20.5.tgz"
   integrity sha512-xo0W+zxxLOVlq4AUTT6GOmaVsLqD9NBwamfVtC5lVjx9XOovkHk7Mkje0XDclMkIkhz80SMGkPmWo4LnlF19CA==
 
+"@strapi/provider-email-nodemailer@^5.12.4":
+  version "5.12.4"
+  resolved "https://registry.npmjs.org/@strapi/provider-email-nodemailer/-/provider-email-nodemailer-5.12.4.tgz"
+  integrity sha512-9oD+lz5s/QI494L4YglhNIG/jhZZW9TXKAzO2znxo2ohmyiFmMEirK+ErpU5VE8kbdEQ64XsWBzN3fC4F3931w==
+  dependencies:
+    lodash "4.17.21"
+    nodemailer "6.9.1"
+
 "@strapi/provider-email-sendmail@4.20.5":
   version "4.20.5"
   resolved "https://registry.npmjs.org/@strapi/provider-email-sendmail/-/provider-email-sendmail-4.20.5.tgz"
   integrity sha512-Ii0We47Oa3g3cfNjEnAQ6ymK/DyVIwQPlx7rJB0IcUDIfkWWI1gRMA6BA7rlyz2/OB3jnT5PCUKpK20Om+IB6Q==
   dependencies:
     "@strapi/utils" "4.20.5"
+    sendmail "^1.6.1"
+
+"@strapi/provider-email-sendmail@4.25.12":
+  version "4.25.12"
+  resolved "https://registry.npmjs.org/@strapi/provider-email-sendmail/-/provider-email-sendmail-4.25.12.tgz"
+  integrity sha512-SfMQM6pgI4J4eRKcqt2SozSKfkC/UWxY1FJKipWJvB7UlRintKC3x3B2nGdXAp1wN1y0Wn8Id+hKdy1bDokyvw==
+  dependencies:
+    "@strapi/utils" "4.25.12"
     sendmail "^1.6.1"
 
 "@strapi/provider-upload-local@4.20.5":
@@ -1781,7 +1853,7 @@
     prettier "2.8.4"
     typescript "5.2.2"
 
-"@strapi/ui-primitives@^1.16.0":
+"@strapi/ui-primitives@^1.16.0", "@strapi/ui-primitives@^1.19.0":
   version "1.19.0"
   resolved "https://registry.npmjs.org/@strapi/ui-primitives/-/ui-primitives-1.19.0.tgz"
   integrity sha512-dEpmI0PpSH6VWuP/bBvRKI5lUpazdDAcxOpukoq2QDwUFbuZWywgW7a6O5nMnD4bLQtyNeYwd52J8Jqr9pNoQA==
@@ -1812,6 +1884,18 @@
   version "4.20.5"
   resolved "https://registry.npmjs.org/@strapi/utils/-/utils-4.20.5.tgz"
   integrity sha512-7/VO9Sf2nxBa+nraZN+HHpJ2isoWbLsU1ECGU7kCgUM8j37F9JEgfvKaRRtYsjEKQGNOeMqn9yMy7dTfKT66fA==
+  dependencies:
+    "@sindresorhus/slugify" "1.1.0"
+    date-fns "2.30.0"
+    http-errors "1.8.1"
+    lodash "4.17.21"
+    p-map "4.0.0"
+    yup "0.32.9"
+
+"@strapi/utils@4.25.12":
+  version "4.25.12"
+  resolved "https://registry.npmjs.org/@strapi/utils/-/utils-4.25.12.tgz"
+  integrity sha512-f8007DLNVotZyfVJ45dpWKxsOFKsGwSC4uqAOHNlRQN2XsAXeqVkFcv0pQxnwqDTiAVpgtr7LzMNnRahiS4xJg==
   dependencies:
     "@sindresorhus/slugify" "1.1.0"
     date-fns "2.30.0"
@@ -2109,7 +2193,7 @@
     "@codemirror/state" "^6.0.0"
     "@codemirror/view" "^6.0.0"
 
-"@uiw/react-codemirror@^4.21.24":
+"@uiw/react-codemirror@^4.21.24", "@uiw/react-codemirror@^4.21.25":
   version "4.23.10"
   resolved "https://registry.npmjs.org/@uiw/react-codemirror/-/react-codemirror-4.23.10.tgz"
   integrity sha512-AbN4eVHOL4ckRuIXpZxkzEqL/1ChVA+BSdEnAKjIB68pLQvKsVoYbiFP8zkXkYc4+Fcgq5KbAjvYqdo4ewemKw==
@@ -2516,6 +2600,15 @@ axios@1.6.0:
   integrity sha512-EZ1DYihju9pwVB+jg67ogm+Tmqc6JmhamRN6I4Zt8DfZu5lbcQGw3ozH9lFejSJgs/ibaef3A9PMXPLeefFGJg==
   dependencies:
     follow-redirects "^1.15.0"
+    form-data "^4.0.0"
+    proxy-from-env "^1.1.0"
+
+axios@1.7.4:
+  version "1.7.4"
+  resolved "https://registry.npmjs.org/axios/-/axios-1.7.4.tgz"
+  integrity sha512-DukmaFRnY6AzAALSH4J2M3k6PkaC+MfaAGdEERRWcC9q3/TWQwLpHR8ZRLKTdQ3aBDL64EdluRDjJqKw+BPZEw==
+  dependencies:
+    follow-redirects "^1.15.6"
     form-data "^4.0.0"
     proxy-from-env "^1.1.0"
 
@@ -4374,7 +4467,7 @@ fn.name@1.x.x:
   resolved "https://registry.npmjs.org/fn.name/-/fn.name-1.1.0.tgz"
   integrity sha512-GRnmB5gPyJpAhTQdSZTSp9uaPSvl09KoYcMQtsB9rQoOmzs9dH6ffeccH+Z+cv6P68Hu5bC6JjRh4Ah/mHSNRw==
 
-follow-redirects@^1.15.0, follow-redirects@^1.15.9:
+follow-redirects@^1.15.0, follow-redirects@^1.15.6, follow-redirects@^1.15.9:
   version "1.15.9"
   resolved "https://registry.npmjs.org/follow-redirects/-/follow-redirects-1.15.9.tgz"
   integrity sha512-gew4GsXizNgdoRyqmyfMHyAmXsZDk6mHkSxZFCzW9gwlbtOW44CDtYavM+y+72qD/Vq2l550kMF52DT8fOLJqQ==
@@ -6634,6 +6727,11 @@ nodemailer-shared@1.1.0:
   integrity sha512-68xW5LSyPWv8R0GLm6veAvm7E+XFXkVgvE3FW0FGxNMMZqMkPFeGDVALfR1DPdSfcoO36PnW7q5AAOgFImEZGg==
   dependencies:
     nodemailer-fetch "1.6.0"
+
+nodemailer@6.9.1:
+  version "6.9.1"
+  resolved "https://registry.npmjs.org/nodemailer/-/nodemailer-6.9.1.tgz"
+  integrity sha512-qHw7dOiU5UKNnQpXktdgQ1d3OFgRAekuvbJLcdG5dnEo/GtcTHRYM7+UfJARdOFU9WUQO8OiIamgWPmiSFHYAA==
 
 nodemon@3.0.2:
   version "3.0.2"

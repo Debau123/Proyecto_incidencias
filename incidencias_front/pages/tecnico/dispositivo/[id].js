@@ -63,43 +63,75 @@ export default function VistaDispositivo() {
   const estadoColor = (estado) => {
     switch (estado) {
       case 'operativo':
-        return 'text-green-400';
+        return 'bg-green-200 text-green-800';
       case 'mantenimiento':
-        return 'text-yellow-400';
+        return 'bg-yellow-200 text-yellow-800';
       case 'averiado':
+        return 'bg-red-200 text-red-800';
       case 'fuera de servicio':
-        return 'text-red-400';
+        return 'bg-gray-200 text-gray-800';
       default:
-        return 'text-white';
+        return 'bg-gray-300 text-gray-800';
     }
   };
 
-  if (loading) return <p className="text-white p-6">Cargando...</p>;
+  const PasswordField = ({ label, value }) => {
+    const handleCopy = () => {
+      navigator.clipboard.writeText(value);
+      alert(`${label} copiada al portapapeles`);
+    };
+
+    return (
+      <div className="flex items-center gap-2">
+        <p>
+          <strong>{label}:</strong>{' '}
+          <span className="tracking-widest">••••••••</span>
+        </p>
+        <button
+          onClick={handleCopy}
+          className="bg-blue-600 hover:bg-blue-700 text-white text-sm px-3 py-1 rounded"
+        >
+          Copiar
+        </button>
+      </div>
+    );
+  };
+
+  if (loading) return <p className="text-gray-600 p-6">Cargando...</p>;
 
   const disp = dispositivo?.attributes;
 
   return (
-    <div className="min-h-screen bg-gray-900 flex items-center justify-center p-6">
-      <div className="bg-gray-800 text-white w-full max-w-xl p-8 rounded-xl shadow-lg">
-        <h1 className="text-3xl font-extrabold mb-6 text-blue-400">
+    <div className="min-h-screen bg-white text-gray-800 p-8">
+      <div className="max-w-3xl mx-auto space-y-6">
+        <h1 className="text-3xl font-bold text-blue-600">
           {disp?.tipo_dispositivo} - {disp?.modelo}
         </h1>
 
-        <div className="space-y-3 text-lg">
-          <p><span className="font-semibold">Marca:</span> {disp?.marca}</p>
-          <p><span className="font-semibold">Nº Serie:</span> {disp?.numero_serie}</p>
-          <p>
-            <span className="font-semibold">Estado actual:</span>{' '}
-            <span className={estadoColor(disp?.estado)}>{disp?.estado}</span>
-          </p>
-        </div>
+        <ul className="space-y-2">
+          <li>
+            <strong>Marca:</strong> {disp?.marca}
+          </li>
+          <li>
+            <strong>Nº Serie:</strong> {disp?.numero_serie}
+          </li>
+          <li>
+            <strong>Estado actual:</strong>{' '}
+            <span
+              className={`px-2 py-1 rounded text-sm ${estadoColor(disp?.estado)}`}
+            >
+              {disp?.estado}
+            </span>
+          </li>
+        </ul>
 
-        <div className="mt-6">
+        {/* Cambiar estado */}
+        <div>
           <label className="block mb-2 text-sm font-medium">Cambiar estado:</label>
           <select
             value={estado}
             onChange={(e) => setEstado(e.target.value)}
-            className="w-full bg-gray-700 text-white px-3 py-2 rounded mb-4"
+            className="w-full border border-gray-300 px-3 py-2 rounded"
           >
             <option value="operativo">Operativo</option>
             <option value="averiado">Averiado</option>
@@ -109,85 +141,111 @@ export default function VistaDispositivo() {
 
           <button
             onClick={handleEstadoChange}
-            className="bg-blue-600 hover:bg-blue-700 transition-all px-5 py-2 rounded text-white font-semibold w-full"
+            className="mt-4 bg-blue-600 hover:bg-blue-700 text-white font-semibold px-4 py-2 rounded"
           >
             Guardar cambios
           </button>
         </div>
 
-        {/* SOFTWARE INSTALADO */}
+        {/* Software */}
         {disp?.software && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-blue-400 mb-4">Software instalado</h2>
+          <div>
+            <h2 className="text-xl font-bold text-blue-600 mt-6 mb-3">
+              Software instalado
+            </h2>
+
             {disp.software.data.length > 0 ? (
-              <ul className="space-y-3">
+              <ul className="space-y-4">
                 {disp.software.data.map((sw) => {
                   const s = sw.attributes;
                   const nombre = s.nombre_software?.toLowerCase();
 
                   return (
-                    <li key={sw.id} className="bg-gray-700 p-4 rounded">
-                      <p className="font-semibold text-white">
+                    <li key={sw.id} className="border border-gray-200 rounded p-4">
+                      <p className="font-medium">
                         {s.nombre_software} {s.version && `v${s.version}`}
                       </p>
 
+                      {/* AnyDesk */}
                       {(nombre.includes('anydesk') || nombre.includes('anydesck')) && (
                         <>
-                          <p className="text-sm mt-1 text-gray-300">
+                          <p>
                             <strong>ID AnyDesk:</strong> {s.usuario}
                           </p>
-                          <p className="text-sm text-gray-300">
-                            <strong>Contraseña:</strong> {s.contrasena}
-                          </p>
-
-                          {/* BOTÓN 1: INTENTAR CONECTAR AUTOMÁTICAMENTE */}
+                          <PasswordField
+                            label="Contraseña AnyDesk"
+                            value={s.contrasena}
+                          />
                           <a
                             href={`anydesk:${s.usuario}`}
-                            className="inline-block mt-3 bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded mr-2"
+                            className="inline-block mt-2 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded mr-2"
                           >
-                            Conectar automáticamente con AnyDesk
+                            Conectar automáticamente
                           </a>
-
-                          {/* BOTÓN 2: COPIAR ID */}
                           <button
                             onClick={() => {
                               navigator.clipboard.writeText(s.usuario);
-                              alert("ID AnyDesk copiado al portapapeles. Abre AnyDesk y pégalo.");
+                              alert(
+                                'ID AnyDesk copiado al portapapeles. Abre AnyDesk y pégalo.'
+                              );
                             }}
-                            className="inline-block mt-3 bg-yellow-600 hover:bg-yellow-700 text-white font-semibold px-4 py-2 rounded"
+                            className="inline-block mt-2 bg-yellow-600 hover:bg-yellow-700 text-white px-4 py-2 rounded"
                           >
-                            Copiar ID y conectar manualmente
+                            Copiar ID
                           </button>
                         </>
                       )}
 
+                      {/* Windows */}
                       {nombre.includes('windows') && (
-                        <p className="text-sm mt-1 text-gray-300">
-                          <strong>Contraseña de inicio:</strong> {s.contrasena}
-                        </p>
+                        <PasswordField
+                          label="Contraseña de inicio"
+                          value={s.contrasena}
+                        />
+                      )}
+
+                      {/* ERP Ahora */}
+                      {nombre.includes('erp ahora') && (
+                        <>
+                          <p>
+                            <strong>Usuario:</strong> {s.usuario}
+                          </p>
+                          <PasswordField
+                            label="Contraseña de inicio"
+                            value={s.contrasena}
+                          />
+                        </>
                       )}
                     </li>
                   );
                 })}
               </ul>
             ) : (
-              <p className="text-gray-400 italic">No hay software instalado.</p>
+              <p className="text-sm text-gray-500">No hay software instalado.</p>
             )}
           </div>
         )}
 
-        {/* COMPONENTES */}
+        {/* Componentes */}
         {disp?.componentes?.data?.length > 0 && (
-          <div className="mt-8">
-            <h2 className="text-2xl font-bold text-blue-400 mb-4">Componentes</h2>
-            <ul className="space-y-3">
+          <div>
+            <h2 className="text-xl font-bold text-blue-600 mt-6 mb-3">
+              Componentes
+            </h2>
+            <ul className="space-y-4">
               {disp.componentes.data.map((comp) => {
                 const c = comp.attributes;
                 return (
-                  <li key={comp.id} className="bg-gray-700 p-4 rounded">
-                    <p><strong>Tipo:</strong> {c.tipo_componente}</p>
-                    <p><strong>Descripción:</strong> {c.descripcion}</p>
-                    <p><strong>Especificaciones:</strong> {c.especificaciones}</p>
+                  <li key={comp.id} className="border border-gray-200 rounded p-4">
+                    <p>
+                      <strong>Tipo:</strong> {c.tipo_componente}
+                    </p>
+                    <p>
+                      <strong>Descripción:</strong> {c.descripcion}
+                    </p>
+                    <p>
+                      <strong>Especificaciones:</strong> {c.especificaciones}
+                    </p>
                   </li>
                 );
               })}

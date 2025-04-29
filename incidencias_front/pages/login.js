@@ -36,7 +36,7 @@ export default function LoginPage() {
 
       switch (user.rol) {
         case 'administrador':
-          router.push('/admin');
+          router.push('/administrador');
           break;
         case 'tecnico':
           router.push('/tecnico');
